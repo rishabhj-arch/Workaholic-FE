@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { BrowserRouter, Routes, Route, useNavigate } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 import Register from './pages/Register.js';
 import Signin from './pages/Signin.js';
 import Details from './pages/Details.js';
@@ -13,40 +13,17 @@ import { loadUserFromStorage } from './redux/userSlice.js';
 
 function RouterApp() {
   const dispatch = useDispatch();
-  const user = useSelector((state) => state.user);
-  const navigate = useNavigate();
   const [hydrated, setHydrated] = useState(false);
 
   useEffect(() => {
-    const path = window.location.pathname;
-    if (path !== '/register' && path !== '/signin' && path !== '/') {
-      try {
-        dispatch(loadUserFromStorage());
-      } catch (e) {
-        console.error('Error loading user:', e);
-      }
+    try {
+      dispatch(loadUserFromStorage());
+    } catch (e) {
+      console.error('Error loading user:', e);
     }
     const timer = setTimeout(() => setHydrated(true), 200);
     return () => clearTimeout(timer);
   }, [dispatch]);
-
-  useEffect(() => {
-    if (!hydrated) return;
-    if (user.loggedIn) {
-      if (!user.detailsCompleted) {
-        navigate('/details', { replace: true });
-      } else if (user.role === 'company') {
-        navigate('/companypage', { replace: true });
-      } else if (user.role === 'freelancer') {
-        navigate('/freelancerpage', { replace: true });
-      }
-    } else {
-      const path = window.location.pathname;
-      if (path !== '/register' && path !== '/signin' && path !== '/') {
-        navigate('/signin', { replace: true });
-      }
-    }
-  }, [user, hydrated, navigate]);
 
   if (!hydrated) return null;
 

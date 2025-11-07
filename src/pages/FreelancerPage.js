@@ -157,9 +157,9 @@ export default function FreelancerPage() {
 				<img src={companyLogo} alt="Company Logo" width="150" height="150" />
 				<h3>Freelancer Job Portal</h3>
 				<div className="header-controls">
-					<button className="profile-button" onClick={handleProfileClick}>Profile</button>
-					<button className="profile-button" onClick={() => setShowAppliedOverlay(true)}>Applied Jobs</button>
-					<button className="profile-button" onClick={handleLogout} aria-label="Logout">
+					<button type="button"className="profile-button" onClick={handleProfileClick}>Profile</button>
+					<button type="button"className="profile-button" onClick={() => setShowAppliedOverlay(true)}>Applied Jobs</button>
+					<button type="button"className="profile-button" onClick={handleLogout} aria-label="Logout">
 						<img
 							src={logoutImage}
 							alt="Logout"
